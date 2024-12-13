@@ -5,6 +5,6 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Step 1
-        run: ""
+        run: LearninhLib.Tests.csproj
   
 
