@@ -1,7 +1,7 @@
 name: Workflow_Demo
 on: push
 jobs:
-  print:
+ test:
     runs-on: windows-latest
     steps:
       - name: Get repossitory code
