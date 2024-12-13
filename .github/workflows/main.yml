@@ -4,9 +4,16 @@ jobs:
  test:
     runs-on: windows-latest
     steps:
-      - name: Get repossitory code
+      - name: Set up dotnet
         uses: actions/checkout@v4
-      
-      - name: Test application
+        with: 
+          dotnet-version: '8.0.204'
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build
+      - name: Test with dotnet CLI
         run: dotnet test
+      
+      
 
