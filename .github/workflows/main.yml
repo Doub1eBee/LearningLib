@@ -4,7 +4,10 @@ jobs:
   print:
     runs-on: windows-latest
     steps:
-      - name: Step 1
-        run: LearninhLib.Tests.csproj
-  
+      - name: Get repossitory code
+        uses: actions/checkout@v4
+      - name: Instal dependecies 
+        run: npm install
+      - name: Test application
+        run: npm run test
 
