@@ -9,7 +9,7 @@ public class Tests
 
     public void TestAdd()
     {
-        Assert.That(MathMethod.Add(-5, 5), Is.EqualTo(0));
+        Assert.That(MathMethod.Add(-5, 5), Is.EqualTo(20));
 
     }
     [Test]
