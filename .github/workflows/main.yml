@@ -17,11 +17,11 @@ jobs:
 
     env:
       Solution_Name: LearningProject.sln                        # Replace with your solution name, i.e. MyWpfApp.sln.
-      Test_Project_Path: LearningLib\LearningLib.Tests\LearningLib.Tests.csproj              # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
+      Test_Project_Path: LearningLib.Tests\LearningLib.Tests.csproj              # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
       
 
     steps:
 
     # Execute all unit tests in the solution
     - name: Execute unit tests
-      run: LearningLib.Tests.csproj
+      run: UnitTest1.cs
