@@ -6,8 +6,7 @@ jobs:
     steps:
       - name: Get repossitory code
         uses: actions/checkout@v4
-      - name: Instal dependecies 
-        run: npm install
+      
       - name: Test application
-        run: npm run test
+        run: dotnet test
 
