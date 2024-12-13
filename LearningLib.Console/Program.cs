@@ -2,3 +2,4 @@
 using LearningLib;
 
 Console.WriteLine(MathMethod.Add(int.MinValue, 2));
+Console.Write(5);
