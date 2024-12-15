@@ -7,33 +7,70 @@ public class Tests
 
     [Test]
 
-    public void TestAdd()
+    public void TestInsert()
     {
-        Assert.That(MathMethod.Add(-5, 5), Is.EqualTo(0));
+        MyList l1 = new MyList(3);
+        l1.Insert("123", 1);
+
+        Assert.That(l1.GetValue(1), Is.EqualTo("123"));
 
     }
     [Test]
-    public void Test2()
+    public void TestDelete()
     {
+        MyList l2 = new MyList(4);
+        l2.Insert("1", 1);
+        l2.Insert("2", 2);
+        l2.Insert("3", 3);
+        l2.Insert("4", 4);
 
-        Assert.That(MathMethod.Add(0, 0), Is.EqualTo(0));
+        l2.Delete(1, 2);
+
+        Assert.That(l2.GetValue(1), Is.EqualTo("1"));
+        Assert.That(l2.count, Is.EqualTo(2));
     }
     [Test]
-    public void Test3()
+    public void TestInsertToEnd()
     {
+        MyList l3 = new MyList(0);
 
-        Assert.That(MathMethod.Add(1, 9), Is.EqualTo(10));
+        l3.InsertToEnd("1");
+        Assert.That(l3.GetValue(1), Is.EqualTo("1"));
+        Assert.That(l3.count, Is.EqualTo(1));
     }
-}
-public class Test2
-{
-    [TestCase(0, 0, 0)]
-    [TestCase(1, 1, 2)]
-    [TestCase(0, 9, 9)]
-    [TestCase(9, 0, 9)]
-
-    public void Test(int a, int b, int expected)
+    [Test]
+    public void TestDeleteFromEnd()
     {
-        Assert.That(MathMethod.Add(a, b), Is.EqualTo(expected));
+        MyList l4 = new MyList(2);
+        l4.Insert("1",1);
+        l4.Insert("2",2);
+
+        l4.DeleteFromEnd();
+        Assert.That(l4.GetValue(1), Is.EqualTo("1"));
+        Assert.That(l4.count, Is.EqualTo(1));
     }
+    [Test]
+    public void TestGetValue()
+    {
+        MyList l5 = new MyList(2);
+        l5.Insert("1", 1);
+        l5.Insert("2", 2);
+
+        
+        Assert.That(l5.GetValue(2), Is.EqualTo("2"));
+        Assert.That(l5.count, Is.EqualTo(2));
+    }
+
+    [Test]
+    public void TestSetValue()
+    {
+        MyList l6 = new MyList(2);
+        l6.Insert("1", 1);
+        l6.Insert("2", 2);
+
+        l6.SetValue("123", 2);
+        Assert.That(l6.GetValue(2), Is.EqualTo("123"));
+        Assert.That(l6.count, Is.EqualTo(2));
+    }
+
 }
