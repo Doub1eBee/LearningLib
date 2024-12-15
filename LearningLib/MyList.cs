@@ -9,120 +9,82 @@ public class MyList
 		list = new string[size];
 		
 	}
-	public void Insert(string element, int position)
+	public void Add(string element, int position)
 	{
-		if (count == list.Length) 
-			ExpandSize(list); 
-
-		bool isInsert = false;
-		string[] tempList = new string[list.Length + 1];
-		for (int i = 0; i < tempList.Length; i++)
+		if (count == list.Length)
 		{
-			
-			if (i == position - 1)
+			list = ExpandSize(list);
+			list[count] = element;
+		}
+        else
+        {
+			if (list[position] == null)
 			{
-				tempList[i] = element;
-				isInsert = true;
-				continue;
-			}
-			if (isInsert)
-			{
-				tempList[i] = list[i - 1];	
+				list[position] = element;
 			}
 			else
 			{
-				tempList[i] = list[i];
+				string[] tempList = new string[count + 1];
+				for (int i = 0; i < count; i++)
+				{
+					if (i < position)
+					{
+						tempList[i] = list[i];
+					}
+					else if (i == position)
+					{
+						tempList[i] = element;
+					}
+					else
+					{
+						tempList[i] = list[i+1];
+					}
+				}
 			}
-			if (String.IsNullOrEmpty(list[i]))
-				break;
-		}
-		list = tempList;
+        }
 		count++;
-		
-	}
+    }
 	public void Delete(int position, int number)
 	{
-		bool isDelete = false;
-		string[] tempList = new string[list.Length - number];
-		for (int i = 0; i < tempList.Length; i++)
+		while (number > 0)
 		{
-            if (i == position - 1)
-			{
-				isDelete = true;
-			}
-			if (isDelete)
-			{
-				tempList[i] = list[i + number];
-				
-			}
-			else
-			{
-				tempList[i] = list[i];
-			}
-			
-            if (String.IsNullOrEmpty(list[i]))
-                break;
+			list[position] = null;
+			number--;
+			position++;
+			count--;
 		}
-		count-=number;
-
 	}
 	public string GetValue(int position)
-	{
-		if (list.Length >= position)
+	{ 
+		if (list != null)
 		{
-			if (list.Length != 0 && list != null)
-				return list[position - 1];
-			else
-				return null;
+			return list[position];
 		}
-		else 
+		else
+		{
 			return null;
-		
+		}
+	
 	}
+		
+		
+	
 	public void SetValue(string setString, int position)
 	{
-        if (list.Length >= position && list.Length != 0 && list != null)
-        {
-            list[position - 1] = setString;
-        }
-       
+		list[position] = setString;
 	}
 	public void Iterate()
 	{
-        if (list.Length != 0 && list != null)
+        if (list != null)
+		{
             foreach (string str in  list)
 			{
 				Console.Write(str + " ");
 			}
-	}
-	public void InsertToEnd(string insert)
-	{
-
-		if (list.Length != 0 && list != null)
-		{
-			if (string.IsNullOrEmpty(list[list.Length - 1]))
-			{
-				list[list.Length - 1] = insert;
-				if (count == list.Length)
-					ExpandSize(list);
-				count++;
-			}
-		}
-		else
-		{
-			list = new string[1] { insert };
-			count++;
-		}
-		
-	}
-	public void DeleteFromEnd()
-	{
-		if (!string.IsNullOrEmpty(list[list.Length - 1]));
-		{
-			list[list.Length - 1] = null;
-			count--;
 		}
 	}
+	
+	
 	public string[] ExpandSize(string[] smallList)
 	{
 		return new string[smallList.Length * 2];
