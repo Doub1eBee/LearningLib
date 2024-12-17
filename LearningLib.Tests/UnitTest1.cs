@@ -5,15 +5,13 @@ namespace LearningLib.Tests;
 public class Tests
 {
 
-    [Test]
+    [TestCase("0","0")]
 
-    public void MyListAdd()
+    public void MyListAdd(string addition, string expectedStr)
     {
-        MyList l1 = new MyList(3);
-        l1.Add  ("123");
-
-        Assert.That(l1.GetValue(0), Is.EqualTo("123"));
-
+        MyList mylist = new MyList(4) ;
+        mylist.Add(addition);
+        Assert.That(mylist[0], Is.EqualTo(expectedStr));
     }
 
     
@@ -22,35 +20,36 @@ public class Tests
     [Test]
     public void MyListGetValue()
     {
-        MyList l5 = new MyList(2);
-        l5.Add("1");
-        l5.Add("2");
+        MyList mylist = new MyList(4);
+        mylist.Add("1");
+        mylist.Add("2");
+        mylist.Add("3");
+        mylist.Add("4");
 
-        
-        Assert.That(l5.GetValue(1), Is.EqualTo("2"));
-        Assert.That(l5.count, Is.EqualTo(2));
+
+        Assert.That(mylist.GetValue(2), Is.EqualTo("3"));
+        Assert.That(mylist.count, Is.EqualTo(4));
     }
 
-    [Test]
-    public void MyListSetValue()
+    [TestCase(0,"2")]
+    public void MyListSetValue(int position, string expectedStr)
     {
-        MyList l6 = new MyList(2);
-        l6.Add("1");
-        l6.Add("2");
-
-        l6.SetValue("123", 1);
-        Assert.That(l6.GetValue(1), Is.EqualTo("123"));
-        Assert.That(l6.count, Is.EqualTo(2));
+        MyList mylist = new MyList(4);
+       
+        mylist.SetValue(expectedStr, position);
+        Assert.That(mylist.GetValue(position), Is.EqualTo(expectedStr));
+        Assert.That(mylist.count, Is.EqualTo(1));
     }
 
-    [Test]
-    public void MyListCollectionInitialiser()
+    [TestCase(2, "string")]
+    public void MyListCollectionInitialiser(int position, string expectedStr)
     {
         MyList mylist = new MyList(3)
         {
            "s1", "s2", "s3"
         };
-        Assert.That(mylist[1], Is.EqualTo("s2"));
+        mylist.SetValue(expectedStr, position);
+        Assert.That(mylist[position], Is.EqualTo(expectedStr));
         Assert.That(mylist.count, Is.EqualTo(3));
     }
 

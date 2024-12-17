@@ -44,8 +44,11 @@ public class MyList : IEnumerable
    
 
     IEnumerator IEnumerable.GetEnumerator()
-    {
-        return list.GetEnumerator();
+    {   
+       for (int i = 0; i < count; i++)
+       {
+            yield return this[i];
+       }
     }
     
      
