@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
-public class MyList : IEnumerable
+
+public class MyList<T> : IEnumerable<T>
 {
-    public string[] list;
+    public T[] list;
     public int count = 0;
-    public MyList(int size)
+    public MyList (int size)
     {
-        list = new string[size];
+        list = new T[size];
 
     }
-    public void Add(string element)
+    public void Add(T element)
     {
         if (count == list.Length)
         {
@@ -21,35 +23,43 @@ public class MyList : IEnumerable
         count++;
     }
 
-    public string GetValue(int position)
+    public T GetValue(int position)
     {
         return list[position];
     }
 
-    public void SetValue(string setString, int position)
+    public void SetValue(T setString, int position)
     {
         list[position] = setString;
     }
 
 
-    public string[] ExpandSize(string[] smallList)
+    public T[] ExpandSize(T[] smallList)
     {
-        return new string[smallList.Length * 2];
+        return new T[smallList.Length * 2];
     }
 
-    public string this[int index]
+    public T this[int index]
     {
         get { return list[index]; }
     }
    
 
+     IEnumerator<T> IEnumerable<T>.GetEnumerator()
+     {   
+         for (int i = 0; i < count; i++)
+         {
+             yield return this[i];
+         }
+     }
     IEnumerator IEnumerable.GetEnumerator()
-    {   
-       for (int i = 0; i < count; i++)
-       {
+    {
+        for (int i = 0; i < count; i++)
+        {
             yield return this[i];
-       }
+        }
     }
+    
     
      
         
