@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class MyList<T> : IEnumerable<T>
+public class MyList<T> : IEnumerable<T>, IEnumerator<T>
 {
     public T[] list;
     public int count = 0;
@@ -59,7 +59,51 @@ public class MyList<T> : IEnumerable<T>
             yield return this[i];
         }
     }
-    
+    //Здесь будет реализация методов и свойств интерфейса IEnumerator<T>
+
+    public int position = -1;
+    public void Reset()
+    {
+        position = -1;
+    }
+    public T Current
+    {
+        get
+        {
+            if (position < count)
+            {
+                return list[position];
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
+        } 
+
+    }
+    object IEnumerator.Current
+    {
+        get
+        {
+            return Current;
+        }
+    }
+    public bool MoveNext()
+    {
+        if (position < count - 1)
+        {
+            position++;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
+    }
     
      
         

@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace LearningLib
 {
-    public class MyList1<T> : IEnumerable
+    public class MyList1<T> : IEnumerator<T>
     {
         T[] list;
         int count = 0;
@@ -35,23 +35,69 @@ namespace LearningLib
         {
             return new T[smallList.Length * 2]; 
         }
+
+        public void MyEnumerator()
+        {
+            while (MoveNext())
+            {
+                T value = Current;
+            }
+            if (position == count - 1)
+            {
+                T value = Current;
+                Reset();
+                Dispose();
+            }
+        }
+
         public T this[int position]
         {
             get { return list[position]; }
             set { list[position] = value; }
         }
+        //Здесь будет реализация методов интерфейса IEnumerator<T>
        
-         IEnumerator IEnumerable.GetEnumerator()
+        int position = -1;
+        public bool MoveNext()
         {
-            MyList1<T> outList = new MyList1<T>(list.Length -1);
-            int i = 0;
-            while (i < count)
+            if (position <= count)
             {
-                outList[i] = list[i];
-                i++;
+                position++;
+                return true;
             }
-            return (IEnumerator)outList;
+            else
+            {
+                return false;
+            }
         }
+        public void Reset()
+        {
+            position = -1;
+        }
+
+        
+        public T Current
+        {
+            get
+            {
+                return list[position];
+            }
+        }
+        object IEnumerator.Current
+        {
+            get
+            {
+                return Current;
+            }
+        }
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+        }
+
+        
+        
         
     }
+   
 }

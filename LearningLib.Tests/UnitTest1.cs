@@ -1,5 +1,9 @@
 
 using LearningLib;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection.Metadata;
+using System.Transactions;
 namespace LearningLib.Tests;
 
 
@@ -68,8 +72,29 @@ public class TestsMyList
             isPassed = true;
         }
        Assert.IsTrue(isPassed);  
-        
 
+    }
+    [TestCase(5)]
+    public void MyListNoForeach(int size)
+    {
+        MyList<string> stringList = new MyList<string>(size)
+        {
+            "str1", "str2", "str3", "str4", "str5"
+        };
+        bool isPassed = false;
+        while (stringList.MoveNext())
+        {
+            string item = stringList.Current;
+        }
+        if (stringList.position == stringList.count - 1)
+        {
+            string item = stringList.Current;
+            isPassed = true;
+            stringList.Reset();
+            stringList.Dispose();
+        }
+        
+        Assert.IsTrue(isPassed);
     }
 
 }
