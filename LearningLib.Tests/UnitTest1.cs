@@ -1,76 +1,100 @@
 
 using LearningLib;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection.Metadata;
+using System.Transactions;
 namespace LearningLib.Tests;
 
-public class Tests
+
+public class TestsMyList
 {
 
-    [Test]
+    [TestCase("0","0")]
 
-    public void TestInsert()
+    public void MyListAdd(string addition, string expectedStr)
     {
-        MyList l1 = new MyList(3);
-        l1.Insert("123", 1);
-
-        Assert.That(l1.GetValue(1), Is.EqualTo("123"));
-
+        MyList<string> mylist = new MyList<string>(4) ;
+        mylist.Add(addition);
+        Assert.That(mylist[0], Is.EqualTo(expectedStr));
     }
+
+    
+    
+
     [Test]
-    public void TestDelete()
+    public void MyListGetValue()
     {
-        MyList l2 = new MyList(4);
-        l2.Insert("1", 1);
-        l2.Insert("2", 2);
-        l2.Insert("3", 3);
-        l2.Insert("4", 4);
+        MyList<int> mylist = new MyList<int>(4);
+        mylist.Add(1);
+        mylist.Add(2);
+        mylist.Add(3);
+        mylist.Add(4);
 
-        l2.Delete(1, 2);
 
-        Assert.That(l2.GetValue(1), Is.EqualTo("1"));
-        Assert.That(l2.count, Is.EqualTo(2));
+        Assert.That(mylist.GetValue(2), Is.EqualTo(3));
+        Assert.That(mylist.count, Is.EqualTo(4));
     }
-    [Test]
-    public void TestInsertToEnd()
-    {
-        MyList l3 = new MyList(0);
 
-        l3.InsertToEnd("1");
-        Assert.That(l3.GetValue(1), Is.EqualTo("1"));
-        Assert.That(l3.count, Is.EqualTo(1));
-    }
-    [Test]
-    public void TestDeleteFromEnd()
+    [TestCase(0,"2")]
+    public void MyListSetValue(int position, double expectedDouble)
     {
-        MyList l4 = new MyList(2);
-        l4.Insert("1",1);
-        l4.Insert("2",2);
-
-        l4.DeleteFromEnd();
-        Assert.That(l4.GetValue(1), Is.EqualTo("1"));
-        Assert.That(l4.count, Is.EqualTo(1));
-    }
-    [Test]
-    public void TestGetValue()
-    {
-        MyList l5 = new MyList(2);
-        l5.Insert("1", 1);
-        l5.Insert("2", 2);
-
+        MyList<double> mylist = new MyList<double>(4) {1.0, 2.0, 3.1, 4.5 };
         
-        Assert.That(l5.GetValue(2), Is.EqualTo("2"));
-        Assert.That(l5.count, Is.EqualTo(2));
+        mylist.SetValue(expectedDouble, position);
+        Assert.That(mylist.GetValue(position), Is.EqualTo(expectedDouble));
+        Assert.That(mylist.count, Is.EqualTo(4));
     }
 
-    [Test]
-    public void TestSetValue()
+    [TestCase(2, "string")]
+    public void MyListCollectionInitialiser(int position, string expectedStr)
     {
-        MyList l6 = new MyList(2);
-        l6.Insert("1", 1);
-        l6.Insert("2", 2);
+        MyList<string> mylist = new MyList<string>(3)
+        {
+           "s1", "s2", "s3"
+        };
+        mylist.SetValue(expectedStr, position);
+        Assert.That(mylist[position], Is.EqualTo(expectedStr));
+        Assert.That(mylist.count, Is.EqualTo(3));
+    }
 
-        l6.SetValue("123", 2);
-        Assert.That(l6.GetValue(2), Is.EqualTo("123"));
-        Assert.That(l6.count, Is.EqualTo(2));
+    [TestCase(5)]
+    public void MyListForeach(int size)
+    {
+        MyList<string> stringList = new MyList<string>(size) 
+        { 
+            "str1", "str2", "str3", "str4", "str5" 
+        };
+        bool isPassed = false;
+        foreach (string item in stringList)
+        {
+            Console.Write(item + " ");
+            isPassed = true;
+        }
+       Assert.IsTrue(isPassed);  
+
+    }
+    [TestCase(5)]
+    public void MyListNoForeach(int size)
+    {
+        MyList<string> stringList = new MyList<string>(size)
+        {
+            "str1", "str2", "str3", "str4", "str5"
+        };
+        bool isPassed = false;
+        while (stringList.MoveNext())
+        {
+            string item = stringList.Current;
+        }
+        if (stringList.position == stringList.count - 1)
+        {
+            string item = stringList.Current;
+            isPassed = true;
+            stringList.Reset();
+            stringList.Dispose();
+        }
+        
+        Assert.IsTrue(isPassed);
     }
 
 }

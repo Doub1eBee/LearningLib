@@ -1,132 +1,110 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
-public class MyList
+
+public class MyList<T> : IEnumerable<T>, IEnumerator<T>
 {
-	public string[] list;
-	public int count = 0;
-	public MyList(int size)
-	{
-		list = new string[size];
-		
-	}
-	public void Insert(string element, int position)
-	{
-		if (count == list.Length) 
-			ExpandSize(list); 
+    public T[] list;
+    public int count = 0;
+    public MyList (int size)
+    {
+        list = new T[size];
 
-		bool isInsert = false;
-		string[] tempList = new string[list.Length + 1];
-		for (int i = 0; i < tempList.Length; i++)
-		{
-			
-			if (i == position - 1)
-			{
-				tempList[i] = element;
-				isInsert = true;
-				continue;
-			}
-			if (isInsert)
-			{
-				tempList[i] = list[i - 1];	
-			}
-			else
-			{
-				tempList[i] = list[i];
-			}
-			if (String.IsNullOrEmpty(list[i]))
-				break;
-		}
-		list = tempList;
-		count++;
-		
-	}
-	public void Delete(int position, int number)
-	{
-		bool isDelete = false;
-		string[] tempList = new string[list.Length - number];
-		for (int i = 0; i < tempList.Length; i++)
-		{
-            if (i == position - 1)
-			{
-				isDelete = true;
-			}
-			if (isDelete)
-			{
-				tempList[i] = list[i + number];
-				
-			}
-			else
-			{
-				tempList[i] = list[i];
-			}
-			
-            if (String.IsNullOrEmpty(list[i]))
-                break;
-		}
-		count-=number;
-
-	}
-	public string GetValue(int position)
-	{
-		if (list.Length >= position)
-		{
-			if (list.Length != 0 && list != null)
-				return list[position - 1];
-			else
-				return null;
-		}
-		else 
-			return null;
-		
-	}
-	public void SetValue(string setString, int position)
-	{
-        if (list.Length >= position && list.Length != 0 && list != null)
+    }
+    public void Add(T element)
+    {
+        if (count == list.Length)
         {
-            list[position - 1] = setString;
+            list = ExpandSize(list);
         }
-       
-	}
-	public void Iterate()
-	{
-        if (list.Length != 0 && list != null)
-            foreach (string str in  list)
-			{
-				Console.Write(str + " ");
-			}
-	}
-	public void InsertToEnd(string insert)
-	{
 
-		if (list.Length != 0 && list != null)
-		{
-			if (string.IsNullOrEmpty(list[list.Length - 1]))
-			{
-				list[list.Length - 1] = insert;
-				if (count == list.Length)
-					ExpandSize(list);
-				count++;
-			}
-		}
-		else
-		{
-			list = new string[1] { insert };
-			count++;
-		}
-		
-	}
-	public void DeleteFromEnd()
-	{
-		if (!string.IsNullOrEmpty(list[list.Length - 1]));
-		{
-			list[list.Length - 1] = null;
-			count--;
-		}
-	}
-	public string[] ExpandSize(string[] smallList)
-	{
-		return new string[smallList.Length * 2];
-	}
-	
-	
-}
+        list[count] = element;
+        count++;
+    }
+
+    public T GetValue(int position)
+    {
+        return list[position];
+    }
+
+    public void SetValue(T setString, int position)
+    {
+        list[position] = setString;
+    }
+
+
+    public T[] ExpandSize(T[] smallList)
+    {
+        return new T[smallList.Length * 2];
+    }
+
+    public T this[int index]
+    {
+        get { return list[index]; }
+    }
+   
+
+     IEnumerator<T> IEnumerable<T>.GetEnumerator()
+     {   
+         for (int i = 0; i < count; i++)
+         {
+             yield return this[i];
+         }
+     }
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        for (int i = 0; i < count; i++)
+        {
+            yield return this[i];
+        }
+    }
+    //Здесь будет реализация методов и свойств интерфейса IEnumerator<T>
+
+    public int position = -1;
+    public void Reset()
+    {
+        position = -1;
+    }
+    public T Current
+    {
+        get
+        {
+            if (position < count)
+            {
+                return list[position];
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
+        } 
+
+    }
+    object IEnumerator.Current
+    {
+        get
+        {
+            return Current;
+        }
+    }
+    public bool MoveNext()
+    {
+        if (position < count - 1)
+        {
+            position++;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
+    }
+    
+     
+        
+}   
